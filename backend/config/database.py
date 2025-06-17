@@ -60,7 +60,7 @@ class DatabaseConfig:
 
 db_config = DatabaseConfig()
 
-if __name__ == "__main__":
-    db = db_config.get_db()
-    print("Collections:", db.list_collection_names())
+# if __name__ == "__main__":
+#     db = db_config.get_db()
+#     print("Collections:", db.list_collection_names())
 
