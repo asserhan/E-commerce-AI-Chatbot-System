@@ -2,6 +2,8 @@ from datetime import datetime
 from pymongo.errors import DuplicateKeyError
 from bson import ObjectId # Import ObjectId for MongoDB document IDs
 import re # Import regex for email validation
+from backend.config.database import db_config
+
 
 class Customer:
     def __init__(self,db):
@@ -86,17 +88,30 @@ class Customer:
             return result.modified_count > 0  # Check if any document was modified
         except:
             return False
+    def increment_conversation_count(self, customer_id):
+        """Increment customer's conversation count"""
+        try:
+            self.collection.update_one(
+                {'_id': ObjectId(customer_id)},
+                {
+                    '$inc': {'total_conversations': 1},
+                    '$set': {'last_interaction': datetime.now()
+                }
+                }
+            )
+        except:
+            pass
 
-#test code
-if __name__ == "__main__":
-    from backend.config.database import db_config
-    db = db_config.get_db()
-    customer_model = Customer(db)
+# #test code
+# if __name__ == "__main__":
+#     from backend.config.database import db_config
+#     db = db_config.get_db()
+#     customer_model = Customer(db)
     
-    # Example usage
-    try:
-        customer_id = customer_model.create_customer("john_doe", "hh@gmail.com", "+1234567890")
-        print(f"Customer created with ID: {customer_id}")
-    except ValueError as e:
-        print(f"Error creating customer: {e}")
-    # Fetch customer by email
+#     # Example usage
+#     try:
+#         customer_id = customer_model.create_customer("john_doe", "hh@gmail.com", "+1234567890")
+#         print(f"Customer created with ID: {customer_id}")
+#     except ValueError as e:
+#         print(f"Error creating customer: {e}")
+ 
