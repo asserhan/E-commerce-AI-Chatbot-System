@@ -33,8 +33,8 @@ db = client["ecomerce_chatbot"]  # Use your actual database name
 try:
     db.customers.drop_index("username_1")
     # print("Dropped unique index on 'username'.")
-except Exception as e:
-    print("Index 'username_1' not found or already dropped.")
+except Exception:
+    pass
 
 # Insert fake products if not present
 if product_model.collection.count_documents({}) == 0:
@@ -347,6 +347,10 @@ def merge_customer_data(old, new):
         if v not in [None, '', []]:  # Only overwrite if new value is not empty/None
             merged[k] = v
     return merged
+
+@app.route('/')
+def index():
+    return "E-commerce AI Chatbot Backend is running! Use /api/chat for the chat API."
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
