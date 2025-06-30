@@ -11,6 +11,7 @@ from services.ai_service import AIService
 from datetime import datetime, timezone
 from pymongo import MongoClient
 from bson import ObjectId
+import os
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -230,6 +231,9 @@ if product_model.collection.count_documents({}) == 0:
             "tags": ["creator", "msi", "high-performance"]
         }
     ])
+
+print("Files in /app at runtime:", os.listdir('.'))
+print("Files in /app/models at runtime:", os.listdir('./models'))
 
 def extract_customer_info(message, conversation_id, existing_customer_data=None):
     # This is a simplified version; you can expand with your regex logic
