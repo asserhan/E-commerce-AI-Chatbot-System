@@ -4,11 +4,11 @@
     "buildCommand": "pip install -r requirements.txt"
   },
   "start": {
-    "start": "python3 server.py",
+    "start": "python3 app.py",
     "watchPatterns": ["backend/**"]
   },
   "run": {
-    "command": "python3 server.py",
+    "command": "python3 app.py",
     "watchPatterns": ["backend/**"]
   }
 }
