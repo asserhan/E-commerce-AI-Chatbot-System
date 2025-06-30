@@ -1,126 +1,20 @@
-from datetime import datetime
-from pymongo.errors import DuplicateKeyError
-from bson import ObjectId # Import ObjectId for MongoDB document IDs
-import re # Import regex for email validation
-from config.database import db_config
-
+from datetime import datetime, timezone
+from bson import ObjectId
 
 class Customer:
-    def __init__(self,db):
+    def __init__(self, db):
         self.collection = db.customers
-    
-    def create_customer(self, username, email, phone, first_name=None, last_name=None,age=None):
 
-        if not self.validate_email(email):
-            raise ValueError("Invalid email format")
-        if not self.validate_phone_number(phone):
-            raise ValueError("Invalid phone number format")
-        
-        customer_data = {
-            "username": username,
-            "email": email,
-            "phone": phone,
-            "first_name": first_name,
-            "last_name": last_name,
-            "created_at": datetime.now(),
-            "updated_at": datetime.now(),
-            "status": "active",
-            "total_conversations": 0,
-            "last_conversation_date": None
-        }
-        try:
-            result = self.collection.insert_one(customer_data)
-            return str(result.inserted_id)  # Return the inserted document ID as a string
-        except DuplicateKeyError:
-            raise ValueError("Customer with this email already exists")
-    #username and email should be unique
-    def get_customer_by_email(self,email):
-        customer = self.collection.find_one({"email": email})
-        if customer:
-            customer["_id"] = str(customer["_id"])
-        return customer
-    
-    def get_customer_by_username(self,username):
-        customer = self.collection.find_one({"username": username})
-        if customer:
-            customer["_id"] = str(customer["_id"])
-        return customer
-    
-    def get_customer_by_id(self, customer_id):
-        try:
-           return self.collection.find_one({"_id": ObjectId(customer_id)})
-        except:
-            return None
-    def get_customer_by_phone(self, phone):
-        customer = self.collection.find_one({"phone": phone})
-        if customer:
-            customer["_id"] = str(customer["_id"])
-        return customer
-    
-    def update_customer(self, customer_id, update_data):
-        update_data["updated_at"] = datetime.now()
-        try:
-            result = self.collection.update_one(
-                {"_id": ObjectId(customer_id)},
-                {"$set": update_data}
-            )
-            return result.modified_count > 0 # Check if any document was modified
-        except:
-            return False
-    def get_all_customers(self):
-        customers = list(self.collection.find())
-        for customer in customers:
-            customer["_id"] = str(customer["_id"])
-        return customers
-    
-    def validate_email(self, email):
-        if not email:
-            return False
-        email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-        return re.match(email_regex, email) is not None
+    def create(self, data):
+        data['timestamp'] = datetime.now(timezone.utc).isoformat()
+        result = self.collection.insert_one(data)
+        return str(result.inserted_id)
 
-    def validate_phone_number(self, phone_number):
-        if not phone_number:
-            return False
-        phone_regex = r"^\+?[1-9]\d{1,14}$"
-        return re.match(phone_regex, phone_number) is not None
-    
-    def delete_customer(self, customer_id):
-        try:
-            result = self.collection.delete_one({"_id": ObjectId(customer_id)})
-            return result.deleted_count > 0  # Check if any document was deleted
-        except:
-            return False
-    def increment_conversation_count(self, customer_id):
-        try:
-            result = self.collection.update_one(
-                {"_id": ObjectId(customer_id)},
-                {"$inc": {"total_conversations": 1}, "$set": {"last_conversation_date": datetime.now()}}
-            )
-            return result.modified_count > 0  # Check if any document was modified
-        except:
-            return False
-    def increment_conversation_count(self, customer_id):
-        """Increment customer's conversation count"""
-        try:
-            self.collection.update_one(
-                {'_id': ObjectId(customer_id)},
-                {
-                    '$inc': {'total_conversations': 1},
-                    '$set': {'last_interaction': datetime.now()
-                }
-                }
-            )
-        except:
-            pass
+    def update(self, customer_id, data):
+        self.collection.update_one({'_id': ObjectId(customer_id)}, {'$set': data})
 
-# #test code
-# if __name__ == "__main__":
-#     from backend.config.database import db_config
-#     db = db_config.get_db()
-#     customer_model = Customer(db)
-    
-#     # Example usage
-#     try:
-#         customer_id = customer_model.create_customer("john_doe", "hh@gmail.com", "+1234567890")
-#         print(f"Customer created with ID: {customer_id}")
+    def get_by_id(self, customer_id):
+        return self.collection.find_one({'_id': ObjectId(customer_id)})
+
+    def get_by_email(self, email):
+        return self.collection.find_one({'email': email})
