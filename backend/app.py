@@ -4,9 +4,9 @@ from flask_cors import CORS
 from flask_socketio import SocketIO
 import uuid
 from config import Config
-from models.customer import Customer
+from models.Customer import Customer
 from models.product import Product
-from models.conversation import Conversation
+from models.Conversation import Conversation
 from services.ai_service import AIService
 from datetime import datetime, timezone
 from pymongo import MongoClient
