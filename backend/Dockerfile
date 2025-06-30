@@ -19,8 +19,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application
 COPY . .
 
+# Debug: List the files to see what's actually copied
+RUN echo "=== Files in /app ===" && ls -la /app
+RUN echo "=== Files in /app/models ===" && ls -la /app/models || echo "models directory not found"
+RUN echo "=== Python path ===" && python -c "import sys; print(sys.path)"
+
 # Expose port (adjust as needed)
 EXPOSE 5001
 
 # Command to run the application
-CMD ["python", "app.py"]  # Replace with your actual start command
+CMD ["python", "app.py"]
