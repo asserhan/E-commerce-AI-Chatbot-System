@@ -236,9 +236,9 @@ def extract_customer_info(message, conversation_id, existing_customer_data=None)
     customer_data = existing_customer_data.copy() if existing_customer_data else {}
     message_lower = message.lower()
 
+    import re
     # Name
     if not customer_data.get('name'):
-        import re
         name_patterns = [
             r'(?:my name is|i am|i\'m|call me|name is)\s+([a-zA-Z\s]+?)(?:\s|$|,|\.|!)',
             r'^([a-zA-Z]+)(?:\s+[a-zA-Z]+)?\s*(?:here|!|\.|\s*$)',
@@ -261,7 +261,7 @@ def extract_customer_info(message, conversation_id, existing_customer_data=None)
     # Phone
     if not customer_data.get('phone'):
         phone_patterns = [
-            r'(?:phone|number|tel|mobile|call)\s*:?\s*([0-9\s\-\(\)\+]{7,})',
+            r'(?:phone|number|tel|mobile|call)\s*:?0\s*([0-9\s\-\(\)\+]{7,})',
             r'([0-9]{3}[-\s]?[0-9]{3}[-\s]?[0-9]{4})',
             r'(\+[0-9\s\-\(\)]{10,})',
             r'([0-9]{6,})'
@@ -292,9 +292,16 @@ def extract_customer_info(message, conversation_id, existing_customer_data=None)
         if budget_match:
             customer_data['budget'] = f"${budget_match.group(1)}"
     if not customer_data.get('brand_preference'):
-        for brand in ['apple', 'dell', 'hp', 'lenovo', 'asus', 'acer', 'microsoft', 'surface', 'macbook', 'thinkpad']:
-            if brand in message_lower:
+        # Positive brand preference (e.g., 'I want HP')
+        for brand in ['apple', 'dell', 'hp', 'lenovo', 'asus', 'acer', 'microsoft', 'surface', 'macbook', 'thinkpad', 'msi', 'razer']:
+            if re.search(rf'\b{brand}\b', message_lower) and not re.search(rf"(don\'t want|no|avoid|not|without)\s+{brand}", message_lower):
                 customer_data['brand_preference'] = brand.title()
+                break
+    # Exclude brand (e.g., 'I don\'t want MacBook', 'no Apple')
+    if not customer_data.get('exclude_brand'):
+        for brand in ['apple', 'dell', 'hp', 'lenovo', 'asus', 'acer', 'microsoft', 'surface', 'macbook', 'thinkpad', 'msi', 'razer']:
+            if re.search(rf"(don\'t want|no|avoid|not|without)\s+{brand}", message_lower):
+                customer_data['exclude_brand'] = brand.title()
                 break
     if not customer_data.get('color_preference'):
         for color in ['black', 'white', 'silver', 'gray', 'grey', 'gold', 'rose gold', 'blue', 'red']:

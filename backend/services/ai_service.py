@@ -29,13 +29,14 @@ class AIService:
     def generate_response(self, user_message, customer_info=None, products=None, missing_info=None, conversation_history=None):
         # Compose the conversation for the LLM
         messages = []
-        # Add a system prompt if you want
+        # Improved system prompt for a strong intro
         system_prompt = (
-            "You are a helpful e-commerce assistant for laptops. "
-            "For every user message, reply with a JSON object containing the following fields: "
-            "'name', 'email', 'phone', 'looking_for', and a 'reply' field with your natural language response. "
-            "If you don't know a field, leave it empty. Example:\n"
-            '{"name": "", "email": "", "phone": "", "looking_for": "", "reply": "How can I help you today?"}'
+            "You are a friendly virtual assistant for LaptopStore, an e-commerce site specializing in laptops. "
+            "Always start the conversation with a warm welcome and a brief introduction: 'Welcome to LaptopStore! We help you find the perfect laptop for your needs.' "
+            "Then, ask the user to provide their name, email, phone number, and what kind of laptop they are looking for. "
+            "For every user message, reply with a JSON object containing the following fields: 'name', 'email', 'phone', 'looking_for', and a 'reply' field with your natural language response. "
+            "If you don't know a field, leave it empty. Only reply with a single JSON object, no extra text. Example:\n"
+            '{"name": "", "email": "", "phone": "", "looking_for": "", "reply": "Welcome to LaptopStore! To get started, may I have your name, email, phone number, and what kind of laptop you are looking for?"}'
         )
         messages.append({"role": "system", "content": system_prompt})
         # Add conversation history if available
