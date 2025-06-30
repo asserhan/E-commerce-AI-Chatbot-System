@@ -1,6 +1,6 @@
 from datetime import datetime
 from bson import ObjectId
-from backend.config.database import db_config
+from config.database import db_config
 
 class Conversation:
     def __init__(self, db):

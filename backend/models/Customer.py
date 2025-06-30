@@ -2,24 +2,26 @@ from datetime import datetime
 from pymongo.errors import DuplicateKeyError
 from bson import ObjectId # Import ObjectId for MongoDB document IDs
 import re # Import regex for email validation
-from backend.config.database import db_config
+from config.database import db_config
 
 
 class Customer:
     def __init__(self,db):
         self.collection = db.customers
     
-    def create_customer(self,useraname, email, phone_number):
+    def create_customer(self, username, email, phone, first_name=None, last_name=None,age=None):
 
         if not self.validate_email(email):
             raise ValueError("Invalid email format")
-        if not self.validate_phone_number(phone_number):
+        if not self.validate_phone_number(phone):
             raise ValueError("Invalid phone number format")
         
         customer_data = {
-            "username": useraname,
+            "username": username,
             "email": email,
-            "phone_number": phone_number,
+            "phone": phone,
+            "first_name": first_name,
+            "last_name": last_name,
             "created_at": datetime.now(),
             "updated_at": datetime.now(),
             "status": "active",
@@ -49,7 +51,12 @@ class Customer:
            return self.collection.find_one({"_id": ObjectId(customer_id)})
         except:
             return None
-        
+    def get_customer_by_phone(self, phone):
+        customer = self.collection.find_one({"phone": phone})
+        if customer:
+            customer["_id"] = str(customer["_id"])
+        return customer
+    
     def update_customer(self, customer_id, update_data):
         update_data["updated_at"] = datetime.now()
         try:
@@ -67,9 +74,14 @@ class Customer:
         return customers
     
     def validate_email(self, email):
+        if not email:
+            return False
         email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         return re.match(email_regex, email) is not None
+
     def validate_phone_number(self, phone_number):
+        if not phone_number:
+            return False
         phone_regex = r"^\+?[1-9]\d{1,14}$"
         return re.match(phone_regex, phone_number) is not None
     
@@ -112,6 +124,3 @@ class Customer:
 #     try:
 #         customer_id = customer_model.create_customer("john_doe", "hh@gmail.com", "+1234567890")
 #         print(f"Customer created with ID: {customer_id}")
-#     except ValueError as e:
-#         print(f"Error creating customer: {e}")
- 

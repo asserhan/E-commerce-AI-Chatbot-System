@@ -2,7 +2,7 @@ from datetime import datetime
 from bson import ObjectId # Import ObjectId for MongoDB document IDs
 import re # Import regex for email validation
 from pymongo import TEXT
-from backend.config.database import db_config
+from config.database import db_config
 
 
 
@@ -137,7 +137,7 @@ class Product:
 
 # if __name__ == "__main__":
    
-#     from backend.config.database import db_config
+#     from config.database import db_config
 #     db = db_config.get_db()
 #     product_model = Product(db)
 

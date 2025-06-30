@@ -8,11 +8,10 @@ class Config:
     
     #Flask configuration
     SECRET_KEY = os.getenv('SECRET_KEY') 
-    # DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
+  
 
     # Database configuration
-    MONGODB_URI = os.getenv('MONGODB_URI')
-    MONGODB_DB_NAME= os.getenv('MONGODB_DB_NAME')
+    MONGO_URI = os.getenv('MONGODB_URI')  # Only this is needed for Flask-PyMongo
 
     # AI configuration
     GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
