@@ -53,7 +53,7 @@ if product_model.collection.count_documents({}) == 0:
                 "screen": "16-inch Retina",
                 "graphics": "Integrated"
             },
-            "image_url": "https://example.com/macbook-pro-m3.jpg",
+            "image_url": "https://www.apple.com/newsroom/images/product/mac/standard/Apple_new-macbookair-wallpaper-screen_11102020_big.jpg.small_2x.jpg",
             "in_stock": True,
             "rating": 4.8,
             "color": "Space Gray",
@@ -72,7 +72,7 @@ if product_model.collection.count_documents({}) == 0:
                 "screen": "13.4-inch FHD+",
                 "graphics": "Intel Iris Xe"
             },
-            "image_url": "https://example.com/dell-xps-13.jpg",
+            "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSd4hJBxUtlZcEhvgdIEt4dZt3VZ6CJPqXOdA&s",
             "in_stock": True,
             "rating": 4.7,
             "color": "Silver",
@@ -91,7 +91,7 @@ if product_model.collection.count_documents({}) == 0:
                 "screen": "13.5-inch OLED",
                 "graphics": "Intel Iris Xe"
             },
-            "image_url": "https://example.com/hp-spectre-x360.jpg",
+            "image_url": "https://cdn.mos.cms.futurecdn.net/v2/t:0,l:0,cw:2000,ch:1125,q:80,w:2000/pyL3b8cis5dcmUvgbe9ygV.jpg",
             "in_stock": True,
             "rating": 4.6,
             "color": "Nightfall Black",
@@ -110,7 +110,7 @@ if product_model.collection.count_documents({}) == 0:
                 "screen": "14-inch WUXGA",
                 "graphics": "Intel Iris Xe"
             },
-            "image_url": "https://example.com/thinkpad-x1-carbon.jpg",
+            "image_url": "https://5.imimg.com/data5/EI/TV/DO/SELLER-43661309/lenovo-laptops-500x500.png",
             "in_stock": True,
             "rating": 4.9,
             "color": "Black",
@@ -129,7 +129,7 @@ if product_model.collection.count_documents({}) == 0:
                 "screen": "14-inch QHD",
                 "graphics": "NVIDIA RTX 4060"
             },
-            "image_url": "https://example.com/asus-rog-g14.jpg",
+            "image_url": "https://www.notebookcheck.net/uploads/tx_nbc2/display-asus-k55_02.jpg",
             "in_stock": True,
             "rating": 4.8,
             "color": "White",
@@ -148,7 +148,7 @@ if product_model.collection.count_documents({}) == 0:
                 "screen": "14-inch OLED",
                 "graphics": "Intel Iris Xe"
             },
-            "image_url": "https://example.com/acer-swift-3.jpg",
+            "image_url": "https://5.imimg.com/data5/SELLER/Default/2022/11/VY/TM/OH/139444584/acer-laptop-aspire-3.jpg",
             "in_stock": True,
             "rating": 4.4,
             "color": "Silver",
@@ -167,7 +167,7 @@ if product_model.collection.count_documents({}) == 0:
                 "screen": "13.5-inch PixelSense",
                 "graphics": "Intel Iris Xe"
             },
-            "image_url": "https://example.com/surface-laptop-5.jpg",
+            "image_url": "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/FL1C-BB-00?qlt=90&wid=1253&hei=705&extendN=0.12,0.12,0.12,0.12&bgc=FFFFFFFF&fmt=jpg",
             "in_stock": True,
             "rating": 4.5,
             "color": "Platinum",
