@@ -18,7 +18,7 @@ app.config.from_object(Config)
 mongo = PyMongo(app)
 db = mongo.db
 
-cors = CORS(app)
+cors = CORS(app,origins="*")
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 customer_model = Customer(db)
