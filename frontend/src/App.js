@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Bot, User, Loader2, ShoppingBag, Phone, Mail } from 'lucide-react';
-import { chatAPI, handleApiError } from './services/api';
+import { Send, Bot, User, Loader2, ShoppingBag, Phone } from 'lucide-react';
+import { chatAPI} from './services/api';
 import './index.css';
 
 // Message Component
